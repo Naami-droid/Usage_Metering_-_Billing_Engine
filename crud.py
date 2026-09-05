@@ -1,4 +1,4 @@
-from models import Tenant
+from models import Tenant, Subscriptions
 from sqlalchemy.orm import Session
 
 
@@ -13,9 +13,18 @@ def create_Tenant(db: Session , name: str):
 
     db.commit()
 
+
     #now we fetch the latest state of the row
 
     db.refresh(db_tenant)
+
+    db_subscription=Subscriptions(
+        tenant_id=db_tenant.id,
+        plan_id="free",
+        status="active"
+    )
+    db.add(db_subscription)
+    db.commit()
 
     return db_tenant
 
