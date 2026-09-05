@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 from database import engine
+from routers import tenants
 
-app=FastAPI(title='Usage Metering & Billing Engine')
+app=FastAPI(title='Multi-Tenant Usage Metering & Billing Engine')
 
 
 def seed_plans():
@@ -34,3 +35,6 @@ def on_startup():
 @app.get('/')
 def root():
     return {"message": "Metering and Billing Engine is running!"}
+
+
+app.include_router(tenants.router, prefix='/tenants', tags=['Tenants'])
