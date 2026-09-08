@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from database import engine
 from routers import tenants
+from routers import chat
 
 app=FastAPI(title='Multi-Tenant Usage Metering & Billing Engine')
 
@@ -38,3 +39,5 @@ def root():
 
 
 app.include_router(tenants.router, prefix='/tenants', tags=['Tenants'])
+
+app.include_router(chat.router, prefix='/chat', tags=['Chat'])

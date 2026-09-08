@@ -15,27 +15,31 @@ class CustCreatConf(BaseModel):
     # This configuration tells Pydantic it's okay to read data directly from SQLAlchemy models
     model_config = ConfigDict(from_attributes=True)
 
-class recordingUsageEvents(BaseModel):
+class createUsageEvents(BaseModel):
     tenant_id : UUID
     usage_type: str = Field(description='whether the request is api call or ai tokens')
     idempotency_key: str 
-    quantity: int
-
-class responseUsageEvent(BaseModel):
+    quantity:int
+class responseUsageEvents(BaseModel):
     tenant_id: UUID
     usage_type :str
     idempotency_key: str
     quantity: str
 
+class chatRequest(BaseModel):
+    prompt:str
+    tenant_id:UUID
+
 class viewSubscriptionRequest(BaseModel):
     tenant_id : UUID
     plan_id : str
 
-class viewSubscriptionResponse(BaseModel):
+class subscriptionUsageResponse(BaseModel):
     tenant_id: UUID
-    plan_id: str
+    total_api_calls_made: int
+    total_ai_tokens_used: int
     api_call_limit: int
-    ai_token_limit: int
+    ai_token_limit:int
 
 class planChange(BaseModel):
     plan_id : str = Field(description= 'The plan they want to change')
@@ -47,9 +51,4 @@ class planChangeResponse(BaseModel):
     ai_token_limit:int
     price_in_cents: int
 
-class subscriptionUsageResponse(BaseModel):
-    tenant_id: UUID
-    total_api_calls_made: int
-    total_ai_tokens_used: int
-    api_call_limit: int
-    ai_token_limit:int
+
